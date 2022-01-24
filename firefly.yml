@@ -1,0 +1,11 @@
+provider: ~
+
+contexts:
+  firefly: ~
+  firefly_auth_middleware: ~
+
+environments:
+  local: ~
+  dev: ~
+  staging: ~
+  prod: ~
