@@ -5,7 +5,7 @@ from setuptools.command.install import install
 
 setuptools.setup(
     name='firefly-auth-middleware',
-    version='0.1.4',
+    version='0.1.5',
     author="",
     author_email="",
     description="Put project description here.",
