@@ -6,8 +6,9 @@ from typing import Optional
 import firefly as ff
 
 
-class Base(ff.Handler, ff.SystemBusAware, ABC):
+class Base(ff.Handler, ff.SystemBusAware, ff.LoggerAware, ABC):
     _kernel: ff.Kernel = None
+    _context_map: ff.ContextMap = None
 
     def _retrieve_token_from_http_request(self):
         for k, v in self._kernel.http_request['headers'].items():
@@ -20,8 +21,6 @@ class Base(ff.Handler, ff.SystemBusAware, ABC):
 
 @ff.authenticator()
 class Authenticator(Base):
-    _context_map: ff.ContextMap = None
-
     def __init__(self):
         self._authorization_service = self._context_map.get_context('firefly_auth_middleware').config.get(
             'auth_service', 'iaaa'
