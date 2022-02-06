@@ -11,7 +11,9 @@ class Base(ff.Handler, ff.SystemBusAware, ff.LoggerAware, ABC):
     _context_map: ff.ContextMap = None
 
     def _retrieve_token_from_http_request(self):
+        print(self._kernel.http_request['headers'])
         for k, v in self._kernel.http_request['headers'].items():
+            print(k)
             if k.lower() == 'authorization':
                 if not v.lower().startswith('bearer'):
                     raise ff.UnauthorizedError()
@@ -53,6 +55,7 @@ class Authorizer(Base):
         )
 
     def handle(self, message: ff.Message, **kwargs) -> Optional[bool]:
+        # TODO pass a "scopes" parameter as well
         return self.request(f'{self._authorization_service}.AuthorizeRequest', data={
             'token': self._retrieve_token_from_http_request(),
         })
