@@ -11,9 +11,7 @@ class Base(ff.Handler, ff.SystemBusAware, ff.LoggerAware, ABC):
     _context_map: ff.ContextMap = None
 
     def _retrieve_token_from_http_request(self):
-        print(self._kernel.http_request['headers'])
         for k, v in self._kernel.http_request['headers'].items():
-            print(k)
             if k.lower() == 'authorization':
                 if not v.lower().startswith('bearer'):
                     raise ff.UnauthorizedError()
@@ -41,6 +39,7 @@ class Authenticator(Base):
             self._kernel.user.token = resp
             self._kernel.user.scopes = resp['scope'].split(' ')
             self._kernel.user.id = resp['aud']
+            self._kernel.user.tenant = resp['tenant']
 
             return True
 
