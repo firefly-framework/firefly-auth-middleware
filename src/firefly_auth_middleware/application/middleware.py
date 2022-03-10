@@ -54,7 +54,7 @@ class Authorizer(Base):
         )
 
     def handle(self, message: ff.Message, **kwargs) -> Optional[bool]:
-        # TODO pass a "scopes" parameter as well
         return self.request(f'{self._authorization_service}.AuthorizeRequest', data={
             'token': self._retrieve_token_from_http_request(),
+            'scopes': self._kernel.required_scopes,
         })
